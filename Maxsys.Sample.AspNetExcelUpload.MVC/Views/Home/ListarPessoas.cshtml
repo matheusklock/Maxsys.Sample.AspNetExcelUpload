@@ -1,0 +1,37 @@
+﻿@using Maxsys.Sample.AspNetExcelUpload.MVC.Controllers
+
+@model SheetViewModel
+
+<h1>Pessoa</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+        @foreach (var column in Model.Columns)
+        {
+            <th>
+                @column.Content
+            </th>
+        }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var cell in Model.Cells) 
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => cell.Content)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,12 @@
+﻿@{
+    //ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    
+    <form method="post" asp-controller="Home" asp-action="ListarPessoas" enctype="multipart/form-data" >
+        <input type="file" name="filexls"/>
+        <button class="btn btn-primary" type="submit">Importar Arquivo Excel</button>
+    </form>
+
+</div>
