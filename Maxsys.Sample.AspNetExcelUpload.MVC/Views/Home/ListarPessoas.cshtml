@@ -7,31 +7,45 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-        @foreach (var column in Model.Columns)
+<div class="card-body">
+    <div id="table" class="table-editable">
+        <span class="table-add float-right mb-3 mr-2">
+            <a href="#!" class="text-success">
+                <i class="fas fa-plus fa-2x" aria-hidden="true"></i></a>
+        </span>
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+                <tr>
+                @foreach (var column in Model.Columns)
+                {
+                    <th class="text-center">
+                        @column.Column.Content
+                    </th>
+                }
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var row in Model.Rows) 
         {
-            <th>
-                @column.Content
-            </th>
+                <tr>
+            @foreach (var cell in row.Cells) 
+            {
+                @if(Utils.Validate_Regex(Model.Columns.Where(col => col.Column.Content == cell.Key).FirstOrDefault().Validation, cell.Value.Content))
+                {
+                    <td class="pt-3-half" contenteditable="true" style="background-color:lightgreen;">
+                    @Html.DisplayFor(modelItem => cell.Value.Content)
+                    </td>
+                }
+                else
+                {
+                    <td class="pt-3-half" contenteditable="true" style="background-color:lightcoral;">
+                    @Html.DisplayFor(modelItem => cell.Value.Content)
+                    </td>           
+                }
+            }
+                </tr>
         }
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var cell in Model.Cells) 
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => cell.Content)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>

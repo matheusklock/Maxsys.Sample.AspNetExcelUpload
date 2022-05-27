@@ -44,8 +44,6 @@ public class HomeController : Controller
         {
             // fazer algo.
         }
-        //
-        var SheetViewModel = new SheetViewModel();
         using (var stream = new MemoryStream())
         {
             //TRATAR STREAM
@@ -63,35 +61,38 @@ public class HomeController : Controller
             //TRATAR PLANILHA
             //
             var sheet = workbook.Worksheets[0];
-            SheetViewModel.Columns = GetColumns(sheet);
-            SheetViewModel.Cells = GetCells(sheet);
-
-            ;        }
-        return View(SheetViewModel);
+            var SheetViewModel = new SheetViewModel(GetColumns(sheet), GetRows(sheet));
+            return View(SheetViewModel);
+        }
     }
 
     public IEnumerable<IColumn> GetColumns(Worksheet sheet)
     {
         List<IColumn> columns = new();
-        List<ICell> column_cells = new();
         var columns_range = sheet.Range[sheet.FirstRow, sheet.FirstColumn, sheet.FirstRow, sheet.LastColumn];
         foreach (var c in columns_range)
         {
-            var cell = new CellViewModel(c.Value2.ToString(), new Regex(""));
-            var col = new ColumnViewModel { Column = cell };
+            var cell = new CellViewModel(c.Value2.ToString());
+            var col = new ColumnViewModel(cell, Utils.GetRegex(c.Value2.ToString()));
             columns.Add(col);
         }
         return columns;
     }
 
-    public IEnumerable<ICell> GetCells(Worksheet sheet)
+    public IEnumerable<IRow> GetRows(Worksheet sheet)
     {
-        List<ICell> cells = new();
-        var range = sheet.Range[2, sheet.FirstColumn, sheet.LastRow, 1];
-        foreach (var cell in range)
+        IEnumerable<IColumn> columns = GetColumns(sheet);
+        List<IRow> rows = new();
+        for (int i = 1; i < sheet.Rows.Count(); i++)
         {
-            cells.Add(new CellViewModel(cell.Value2.ToString() ?? "", new Regex("")));
+            Dictionary<string, ICell> cells = new();
+            foreach (var r in sheet.Rows[i])
+            {
+                IColumn column = columns.ElementAt(cells.Count());
+                cells.Add(columns.ElementAt(cells.Count()).Column.Content, new CellViewModel(r.Value2.ToString()));
+            }
+            rows.Add(new RowViewModel(cells));
         }
-        return cells;
+        return rows;
     }
 }
