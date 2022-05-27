@@ -4,11 +4,13 @@ namespace Maxsys.Sample.AspNetExcelUpload.MVC.Controllers
 {
     public class SheetViewModel : ISheet
     {
-        public SheetViewModel(IEnumerable<IColumn> columns, IEnumerable<IRow> rows)
+        public SheetViewModel(string name, IEnumerable<IColumn> columns, IEnumerable<IRow> rows)
         {
+            Name = name;
             Columns = columns;
             Rows = rows;
         }
+        public string Name { get; set; }
         public IEnumerable<IColumn> Columns { get; set; }
         public IEnumerable<IRow> Rows { get; set; }
     }

@@ -61,7 +61,7 @@ public class HomeController : Controller
             //TRATAR PLANILHA
             //
             var sheet = workbook.Worksheets[0];
-            var SheetViewModel = new SheetViewModel(GetColumns(sheet), GetRows(sheet));
+            var SheetViewModel = new SheetViewModel(sheet.Name, GetColumns(sheet), GetRows(sheet));
             return View(SheetViewModel);
         }
     }

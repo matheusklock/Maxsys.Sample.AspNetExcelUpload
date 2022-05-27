@@ -15,9 +15,9 @@ namespace Maxsys.Sample.AspNetExcelUpload.MVC.Controllers
         }
         static public string GetRegex(string column)
         {
-            if (column == "#") return "^REQ#[0-9][0-9][0-9][0-9]$";
+            if (column == "cervical") return "^REQ#[0-9][0-9][0-9][0-9]$";
             if (column == "Data criação") return "^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9]$";
-            if (column == "Dias") return "^[0-9]$";
+            if (column == "lombar") return "^[0-9]$";
             if (column == "Consumo") return "^[0-9]$";
             if (column == "Data sol. aprovação") return "^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9]$";
             return "";
