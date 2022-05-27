@@ -2,7 +2,8 @@
 
 @model SheetViewModel
 
-<h1>@Model.Name</h1>
+<body style="background-color:#181834">
+<h1 style="color:white"><strong>@Model.Name</strong></h1>
 <h2>
     <div class="form-outline mb-4">
       <input type="search" class="form-control" id="datatable-search-input">
@@ -10,9 +11,6 @@
     </div>
 </h2>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
 
 <div class="card-body">
     <div id="table" class="table">
@@ -22,8 +20,8 @@
                 <i class="fas fa-plus fa-2x" aria-hidden="true"></i></a>
         </span>
 
-        <table class="table table-bordered table-responsive-md table-striped table-hover text-center">
-            <thead class="bg-dark">
+        <table class="table table-striped table-hover text-center" border="0">
+            <thead class="bg-gradient">
                 <tr>
                 @foreach (var column in Model.Columns)
                 {
@@ -34,11 +32,10 @@
                 </tr>
             </thead>
             <tbody>
-        @foreach (var row in Model.Rows) 
+        @foreach (var row in Model.Rows.Where(r => r.Cells.Values.Any(x => x.Content != ""))) 
         {
-                <tr>
+                    <tr>
             @foreach (var cell in row.Cells) 
-            {
                 @if(Utils.Validate_Regex(Model.Columns.Where(col => col.Column.Content == cell.Key).FirstOrDefault().Validation, cell.Value.Content))
                 {
                     <td class="pt-3-half" style="background-color:lightgreen;">
@@ -51,10 +48,10 @@
                     @Html.DisplayFor(modelItem => cell.Value.Content)
                     </td>           
                 }
-            }
                 </tr>
         }
             </tbody>
         </table>
     </div>
 </div>
+</body>

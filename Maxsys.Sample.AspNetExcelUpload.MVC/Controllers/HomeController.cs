@@ -59,7 +59,6 @@ public class HomeController : Controller
                 _logger.Log(LogLevel.Error, "Ocorreu um erro ao ler a stream.");
             }
             //TRATAR PLANILHA
-            //
             var sheet = workbook.Worksheets[0];
             var SheetViewModel = new SheetViewModel(sheet.Name, GetColumns(sheet), GetRows(sheet));
             return View(SheetViewModel);
